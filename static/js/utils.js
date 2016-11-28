@@ -66,14 +66,14 @@ var default_parms = function (type){
 
 	if (type) { 
 	    params["n_trials"] = 1
-	    params["stims"] = [1]
-	    params["delays"] = [0]
+	    params["stims"] = [1,2]
+	    params["delays"] = [0,1]
     	return params
     }
 
-    params["n_trials"] = 1
-	params["stims"] = [3]
-	params["delays"] = [1]
+    params["n_trials"] = 2
+	params["stims"] = [3,5,7]
+	params["delays"] = [0,3]
 
 	return params
 }

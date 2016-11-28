@@ -150,19 +150,21 @@ def load_from_db(params):
     trialset = []
     assert params["n_trials"]< len(all_trials)+1
 
-    for delay in params["delays"]:
-        for stim in params["stims"]:
-            trials = all_trials[stim-1]
-            trial_idx = gen_trial_idx(len(trials),params["n_trials"])
-            # need to add delay here
-            trialset += add_delay(trials[trial_idx].tolist(),delay)
+    for show in [0,1]:
+        for delay in params["delays"]:
+            for stim in params["stims"]:
+                trials = all_trials[stim-1]
+                trial_idx = gen_trial_idx(len(trials),params["n_trials"])
+                # need to add delay here
+                trialset += add_cond(trials[trial_idx].tolist(),["delay","show"],[delay,show])
 
     return trialset
 
-def add_delay(trial_list,delay):
+def add_cond(trial_list,conds_s,cond):
     for t in trial_list:
         for s in range(len(t)):
-            t[s]['delay'] = delay
+            for i,cond_s in enumerate(conds_s):
+                t[s][cond_s] = cond[i]
 
     return trial_list
 

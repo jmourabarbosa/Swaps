@@ -16,7 +16,7 @@ var pages = [
 	"instructions/instruct-1.html",
 	"instructions/instruct-2.html",
 	"instructions/instruct-3.html",
-	"instructions/instruct-4.html",
+	// "instructions/instruct-4.html",
 	"instructions/instruct-5.html",
 	"instructions/instruct-6.html",
 	"instructions/instruct-ready.html",
@@ -35,7 +35,7 @@ var instructionPages = [ // add as a list as many pages as you like
 	"instructions/instruct-1.html",
 	"instructions/instruct-2.html",
 	"instructions/instruct-3.html",
-	"instructions/instruct-4.html",
+	// "instructions/instruct-4.html",
 	"instructions/instruct-5.html",
 	"instructions/instruct-6.html",
 	"instructions/instruct-ready.html"
@@ -124,6 +124,7 @@ var StroopExperiment = function(trials) {
 			session["correct"] = get_correct();
 			session["delay"] = session["trial"][0]["delay"]*1000
 			session["state"] = FIX;
+			session["show"] = session["trial"][0]["show"]
 			screen = start_screen();
 			draw_fix(screen,"white");
 			$("#fixation").mouseover(show_trial)
@@ -164,8 +165,9 @@ var StroopExperiment = function(trials) {
                                  'n_catch': session["n_catch"],
                                  'n_drop': session["n_drop"],
                                  'catch_rt': session["catch_rt"],
-                                 'trial': JSON.stringify(session["trial"])}
-                             	 //'session': session}
+                                 'trial': JSON.stringify(session["trial"]),
+                                 'trial': session["trial"],
+                             	 'session': session}
                                );
 
 		feedback(report_on_screen,report_angle)
@@ -217,7 +219,7 @@ var StroopExperiment = function(trials) {
 				screen = start_screen();
 				draw_fix(screen,"black");
 				if (session["catch_trial"]) gen_catches();
-				gen_catches();
+				//gen_catches();
 				session["state"] = PRES;
 				setTimeout(function () {show_trial()},FIX_DUR)
 
@@ -238,7 +240,8 @@ var StroopExperiment = function(trials) {
 			case DELAY:
 				blank_stimuli()
 				//drop_stimuli()
-				//hide_stimulus()
+				if (!session["show"])
+					hide_stimulus()
 				// window.requestAnimationFrame(flicker_background)
 				session["state"] = REPORT;
 				setTimeout(function () {show_trial()},session["delay"])
